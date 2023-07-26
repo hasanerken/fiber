@@ -22,7 +22,8 @@ func main() {
 
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
-			"message": "Hello, Railway!",
+			"message":  "Hello, Railway!",
+			"database": os.Getenv("DATABASE_URL"),
 		})
 	})
 
