@@ -6,11 +6,12 @@ import (
 	"github.com/jmoiron/sqlx"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"log"
+	"os"
 	"time"
 )
 
 func NewPostgreSQLConnection() (*sqlx.DB, error) {
-	dsn := fmt.Sprintf("postgresql://postgres:EBFE1EhMtT0LPVdU@db.ewnawqxvstvxofhxqrif.supabase.co:5432/postgres")
+	dsn := fmt.Sprintf(os.Getenv("DATABASE_URL"))
 	db, err := sqlx.Open("postgres", dsn)
 	if err != nil {
 		fmt.Printf("Error %s", err)
