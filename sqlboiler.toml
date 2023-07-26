@@ -1,0 +1,16 @@
+output   = "repositories/models"
+wipe     = true
+no-tests = true
+pkgname = "models"
+add-global-variants = true
+add-enum-types = true
+
+[psql]
+dbname = "railway"
+host   = "containers-us-west-79.railway.app"
+port   = 6340
+user   = "postgres"
+pass   = "Wc3tbviBivzEQVFO8ueg"
+schema = "public"
+sslmode = "disable"
+blacklist = ["migrations", "other"]
