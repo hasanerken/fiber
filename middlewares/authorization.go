@@ -17,7 +17,7 @@ func Authorize(authorizerClient authorizer.AuthorizerClient) fiber.Handler {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "unauthorized"})
 		}
 		log.Info(fmt.Sprint(authSplit))
-		res, err := authrizerClient.ValidateJWTToken(&authorizer.ValidateJWTTokenInput{
+		res, err := authorizerClient.ValidateJWTToken(&authorizer.ValidateJWTTokenInput{
 			TokenType: authorizer.TokenTypeAccessToken,
 			Token:     authSplit[1],
 		})
