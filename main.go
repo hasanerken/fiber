@@ -15,7 +15,7 @@ import (
 func getPort() string {
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = ":3000"
+		port = ":3001"
 	} else {
 		port = ":" + port
 	}
@@ -27,6 +27,7 @@ func main() {
 	app.Use(cors.New())
 
 	app.Get("/", func(c *fiber.Ctx) error {
+
 		return c.JSON(fiber.Map{
 			"message": "Hello, Railway!",
 		})

@@ -5,6 +5,7 @@ module fiber
 go 1.16
 
 require (
+	github.com/authorizerdev/authorizer-go v0.0.0-20230723105452-93f295f42bfb // indirect
 	github.com/friendsofgo/errors v0.9.2
 	github.com/gofiber/fiber/v2 v2.48.0
 	github.com/google/go-cmp v0.5.9 // indirect
