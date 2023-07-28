@@ -91,7 +91,7 @@ func main() {
 
 		fmt.Print(login)
 
-		return ctx.JSON(fiber.Map{"data": login})
+		return ctx.JSON(fiber.Map{"token": login.AccessToken, "user": login.User})
 	})
 
 	app.Get("/tenants", middlewares.Authorize(*authorizerClient), func(c *fiber.Ctx) error {
