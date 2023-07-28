@@ -27,10 +27,12 @@ func Authorize() fiber.Handler {
 		if len(authSplit) < 2 || authSplit[1] == "" {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "unauthorized"})
 		}
+		log.Info(fmt.Sprint(authSplit))
 		res, err := authorizerClient.ValidateJWTToken(&authorizer.ValidateJWTTokenInput{
 			TokenType: authorizer.TokenTypeIDToken,
 			Token:     authSplit[1],
 		})
+		log.Info((fmt.Sprint(res)))
 		if err != nil {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "unauthorized"})
 		}
