@@ -5,6 +5,7 @@ import (
 	"fiber/infrastructure/storages"
 	"fiber/middlewares"
 	"fiber/repositories/models"
+	"fmt"
 	"github.com/authorizerdev/authorizer-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -88,7 +89,7 @@ func main() {
 			return ctx.Status(401).JSON(fiber.Map{"error": err})
 		}
 
-		log.Print(login)
+		fmt.Print(login)
 
 		return ctx.JSON(fiber.Map{"data": login})
 	})
