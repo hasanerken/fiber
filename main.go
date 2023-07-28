@@ -26,7 +26,15 @@ func getPort() string {
 
 func main() {
 	app := fiber.New()
-	app.Use(cors.New())
+
+	// CORS middleware configuration
+	config := cors.Config{
+		AllowOrigins: "https://gordion-development.up.railway.app,http://localhost:3000", // Replace with your allowed origin
+		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
+		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS",
+	}
+
+	app.Use(cors.New(config))
 
 	app.Get("/", func(c *fiber.Ctx) error {
 
