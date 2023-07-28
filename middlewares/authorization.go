@@ -13,7 +13,6 @@ func Authorize() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		authHeader := ctx.Get("Authorization")
 		authSplit := strings.Split(authHeader, " ")
-		tokenPart := authSplit[1]
 
 		defaultHeaders := map[string]string{}
 		AUTHORIZER_CLIENT_ID := os.Getenv("AUTHORIZER_CLIENT_ID")
@@ -25,12 +24,12 @@ func Authorize() fiber.Handler {
 			ctx.Status(401)
 		}
 
-		if len(authSplit) < 2 || tokenPart == "" {
+		if len(authSplit) < 2 || authSplit[1] == "" {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "unauthorized"})
 		}
 		res, err := authorizerClient.ValidateJWTToken(&authorizer.ValidateJWTTokenInput{
 			TokenType: authorizer.TokenTypeIDToken,
-			Token:     tokenPart,
+			Token:     authSplit[1],
 		})
 		if err != nil {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "unauthorized"})
