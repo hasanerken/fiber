@@ -29,9 +29,10 @@ func main() {
 
 	// CORS middleware configuration
 	config := cors.Config{
-		AllowOrigins: "https://gordion-development.up.railway.app,http://localhost:3000", // Replace with your allowed origin
-		AllowHeaders: "Origin, Content-Type, Accept, Authorization",
-		AllowMethods: "GET, POST, PUT, DELETE, OPTIONS",
+		AllowOrigins:     "https://gordion-development.up.railway.app,http://localhost:3000", // Replace with your allowed origin
+		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
+		AllowMethods:     "GET, POST, PUT, DELETE, OPTIONS",
+		AllowCredentials: true,
 	}
 
 	app.Use(cors.New(config))
