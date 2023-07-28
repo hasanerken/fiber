@@ -29,7 +29,7 @@ func Authorize() fiber.Handler {
 		}
 		log.Info(fmt.Sprint(authSplit))
 		res, err := authorizerClient.ValidateJWTToken(&authorizer.ValidateJWTTokenInput{
-			TokenType: authorizer.TokenTypeIDToken,
+			TokenType: authorizer.TokenTypeAccessToken,
 			Token:     authSplit[1],
 		})
 		log.Info((fmt.Sprint(res)))
