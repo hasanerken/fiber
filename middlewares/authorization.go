@@ -1,8 +1,10 @@
 package middlewares
 
 import (
+	"fmt"
 	"github.com/authorizerdev/authorizer-go"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/log"
 	"os"
 	"strings"
 )
@@ -16,7 +18,7 @@ func Authorize() fiber.Handler {
 		defaultHeaders := map[string]string{}
 		AUTHORIZER_CLIENT_ID := os.Getenv("AUTHORIZER_CLIENT_ID")
 		AUTHORIZER_URL := os.Getenv("AUTHORIZER_URL")
-
+		log.Info(fmt.Sprint(AUTHORIZER_URL, AUTHORIZER_CLIENT_ID))
 		authorizerClient, err := authorizer.NewAuthorizerClient(AUTHORIZER_CLIENT_ID, AUTHORIZER_URL, "", defaultHeaders)
 
 		if err != nil {
