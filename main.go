@@ -63,7 +63,7 @@ func main() {
 		panic(err)
 	}
 
-	app.Post("/login", func(ctx *fiber.Ctx) error {
+	app.Post("api/auth/login", func(ctx *fiber.Ctx) error {
 		loginInput := &authorizer.LoginInput{
 			Email:    "",
 			Password: "",
