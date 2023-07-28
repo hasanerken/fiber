@@ -88,6 +88,8 @@ func main() {
 			return ctx.Status(401).JSON(fiber.Map{"error": err})
 		}
 
+		log.Print(login)
+
 		return ctx.JSON(fiber.Map{"data": login})
 	})
 
