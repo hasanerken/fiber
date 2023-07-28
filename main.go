@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fiber/infrastructure/storages"
+	"fiber/middlewares"
 	"fiber/repositories/models"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -53,7 +54,7 @@ func main() {
 		log.Fatalf("No ping from db")
 	}
 
-	app.Get("/tenants", func(c *fiber.Ctx) error {
+	app.Get("/tenants", middlewares.Authorize(), func(c *fiber.Ctx) error {
 		all, err := models.Tenants().All(context.Background(), client)
 		if err != nil {
 			return err
