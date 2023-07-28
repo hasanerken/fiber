@@ -5,6 +5,7 @@ import (
 	"fiber/infrastructure/storages"
 	"fiber/middlewares"
 	"fiber/repositories/models"
+	"github.com/authorizerdev/authorizer-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/jmoiron/sqlx"
@@ -54,7 +55,34 @@ func main() {
 		log.Fatalf("No ping from db")
 	}
 
-	app.Get("/tenants", middlewares.Authorize(), func(c *fiber.Ctx) error {
+	defaultHeaders := map[string]string{}
+	AUTHORIZER_CLIENT_ID := os.Getenv("AUTHORIZER_CLIENT_ID")
+	AUTHORIZER_URL := os.Getenv("AUTHORIZER_URL")
+	authorizerClient, err := authorizer.NewAuthorizerClient(AUTHORIZER_CLIENT_ID, AUTHORIZER_URL, "", defaultHeaders)
+	if err != nil {
+		panic(err)
+	}
+
+	app.Post("/login", func(ctx *fiber.Ctx) error {
+		loginInput := &authorizer.LoginInput{
+			Email:    "",
+			Password: "",
+		}
+
+		if err := ctx.BodyParser(loginInput); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).
+				JSON(fiber.Map{"error": err})
+		}
+
+		login, err := authorizerClient.Login(loginInput)
+		if err != nil {
+			return ctx.Status(401).JSON(fiber.Map{"error": err})
+		}
+
+		return ctx.JSON(fiber.Map{"data": login})
+	})
+
+	app.Get("/tenants", middlewares.Authorize(*authorizerClient), func(c *fiber.Ctx) error {
 		all, err := models.Tenants().All(context.Background(), client)
 		if err != nil {
 			return err
