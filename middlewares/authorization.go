@@ -33,10 +33,8 @@ func Authorize() fiber.Handler {
 			Token:     authSplit[1],
 		})
 		if err != nil {
-			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": err.Error()})
+			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": err})
 		}
-		log.Info(res.IsValid)
-		log.Info(res.Claims)
 		if !res.IsValid {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(fiber.Map{"message": "unauthorized"})
 		}
