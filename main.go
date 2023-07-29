@@ -2,9 +2,6 @@ package main
 
 import (
 	"context"
-	"fiber/infrastructure/storages"
-	"fiber/middlewares"
-	"fiber/repositories/models"
 	"fmt"
 	"github.com/authorizerdev/authorizer-go"
 	"github.com/gofiber/fiber/v2"
@@ -13,6 +10,11 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"os"
+	"xhantos/config"
+	"xhantos/infrastructure/storages"
+	"xhantos/middlewares"
+	"xhantos/modules/tenants"
+	"xhantos/sqlboiler/models"
 )
 
 func getPort() string {
@@ -29,14 +31,14 @@ func main() {
 	app := fiber.New()
 
 	// CORS middleware configuration
-	config := cors.Config{
-		AllowOrigins:     "https://gordion-development.up.railway.app,http://localhost:3000", // Replace with your allowed origin
+	corsConfig := cors.Config{
+		AllowOrigins:     "https://gordion-development.up.railway.app,http://localhost:3000,http://localhost:3001", // Replace with your allowed origin
 		AllowHeaders:     "Origin, Content-Type, Accept, Authorization",
 		AllowMethods:     "GET, POST, PUT, DELETE, OPTIONS",
 		AllowCredentials: true,
 	}
 
-	app.Use(cors.New(config))
+	app.Use(cors.New(corsConfig))
 
 	app.Get("/", func(c *fiber.Ctx) error {
 
@@ -94,6 +96,12 @@ func main() {
 		return ctx.JSON(fiber.Map{"token": login.AccessToken, "user": login.User})
 	})
 
+	appConfig := &config.Config{
+		Server:     app,
+		DB:         client,
+		Authorizer: authorizerClient,
+	}
+
 	app.Get("/tenants", middlewares.Authorize(*authorizerClient), func(c *fiber.Ctx) error {
 		all, err := models.Tenants().All(context.Background(), client)
 		if err != nil {
@@ -103,6 +111,8 @@ func main() {
 			"tenants": all,
 		})
 	})
+
+	tenants.SetupTenantRoutes(appConfig)
 
 	log.Fatal(app.Listen(getPort()))
 }
