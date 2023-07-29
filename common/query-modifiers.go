@@ -46,4 +46,5 @@ func BuildQueryModifiers(queryParams QueryParams) []qm.QueryMod {
 	modifiers = append(modifiers, qm.Limit(perPage), qm.Offset(offset))
 
 	return modifiers
+
 }
