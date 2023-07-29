@@ -8,4 +8,8 @@ func SetupTenantRoutes(app *config.Config) {
 	handler := NewTenantHandler(service)
 
 	app.Server.Post("/tenants", handler.CreateTenant)
+	app.Server.Put("/tenants", handler.UpdateTenant)
+	app.Server.Get("/tenants/:id", handler.GetTenantByID)
+	app.Server.Get("/tenants/", handler.GetTenantsByQuery)
+	app.Server.Delete("/tenants/:id", handler.DeleteTenant)
 }

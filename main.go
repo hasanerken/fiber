@@ -39,6 +39,7 @@ func main() {
 	}
 
 	app.Use(cors.New(corsConfig))
+	app.Use(middlewares.QueryParamsMiddleware())
 
 	app.Get("/", func(c *fiber.Ctx) error {
 
@@ -102,7 +103,7 @@ func main() {
 		Authorizer: authorizerClient,
 	}
 
-	app.Get("/tenants", middlewares.Authorize(*authorizerClient), func(c *fiber.Ctx) error {
+	app.Get("/auth/tenants", middlewares.Authorize(*authorizerClient), func(c *fiber.Ctx) error {
 		all, err := models.Tenants().All(context.Background(), client)
 		if err != nil {
 			return err
