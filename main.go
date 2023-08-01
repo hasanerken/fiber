@@ -13,6 +13,7 @@ import (
 	"xhantos/config"
 	"xhantos/infrastructure/storages"
 	"xhantos/middlewares"
+	"xhantos/modules/auth"
 	"xhantos/modules/tenants"
 	"xhantos/sqlboiler/models"
 )
@@ -114,6 +115,7 @@ func main() {
 	})
 
 	tenants.SetupTenantRoutes(appConfig)
+	auth.SetupAuthRoutes(appConfig)
 
 	log.Fatal(app.Listen(getPort()))
 }

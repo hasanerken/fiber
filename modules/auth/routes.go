@@ -11,5 +11,5 @@ func SetupAuthRoutes(app *config.Config) {
 
 	app.Server.Post("/login", handler.Login)
 	app.Server.Post("/register", handler.Register)
-
+	app.Server.Post("/forgot-password", handler.ForgotPassword)
 }

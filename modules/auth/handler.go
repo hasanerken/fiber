@@ -86,3 +86,16 @@ func (h AuthHandler) Register(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"result": res})
 }
+
+func (h AuthHandler) ForgotPassword(ctx *fiber.Ctx) error {
+	forgotPasswordInput := new(authorizer.ForgotPasswordInput)
+	if err := ctx.BodyParser(forgotPasswordInput); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).
+			JSON(fiber.Map{"error": err})
+	}
+	password, err := h.authorizer.ForgotPassword(forgotPasswordInput)
+	if err != nil {
+		return err
+	}
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"message": password.Message})
+}
