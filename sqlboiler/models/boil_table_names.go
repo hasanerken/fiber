@@ -4,7 +4,23 @@
 package models
 
 var TableNames = struct {
-	Tenants string
+	AuthorizerEmailTemplates       string
+	AuthorizerEnvs                 string
+	AuthorizerOtps                 string
+	AuthorizerSessions             string
+	AuthorizerUsers                string
+	AuthorizerVerificationRequests string
+	AuthorizerWebhookLogs          string
+	AuthorizerWebhooks             string
+	Tenants                        string
 }{
-	Tenants: "tenants",
+	AuthorizerEmailTemplates:       "authorizer_email_templates",
+	AuthorizerEnvs:                 "authorizer_envs",
+	AuthorizerOtps:                 "authorizer_otps",
+	AuthorizerSessions:             "authorizer_sessions",
+	AuthorizerUsers:                "authorizer_users",
+	AuthorizerVerificationRequests: "authorizer_verification_requests",
+	AuthorizerWebhookLogs:          "authorizer_webhook_logs",
+	AuthorizerWebhooks:             "authorizer_webhooks",
+	Tenants:                        "tenants",
 }
