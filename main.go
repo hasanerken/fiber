@@ -6,8 +6,6 @@ import (
 	"github.com/authorizerdev/authorizer-go"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
-	"github.com/gofiber/fiber/v2/middleware/csrf"
-	"github.com/gofiber/storage/redis/v2"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 	"log"
@@ -33,12 +31,6 @@ func getPort() string {
 func main() {
 	app := fiber.New()
 
-	// Create a client with a Redis URL with all information.
-	store := redis.New(redis.Config{
-		URL:   "redis://default:h9e5emP4GUaw2sApamh8@containers-us-west-46.railway.app:6277",
-		Reset: false,
-	})
-
 	// CORS middleware configuration
 	corsConfig := cors.Config{
 		AllowOrigins:     "https://gordion-development.up.railway.app,http://localhost:3000,http://localhost:3001", // Replace with your allowed origin
@@ -48,8 +40,6 @@ func main() {
 	}
 
 	app.Use(cors.New(corsConfig))
-
-	app.Use(csrf.New(csrf.Config{Storage: store}))
 
 	app.Use(middlewares.QueryParamsMiddleware())
 
